@@ -6,7 +6,7 @@ import java.util.List;
 public class UsuarioDAO {
 
     public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO Usuarios (nome, email, senha_hash, universidade, curso, data_cadastro, tipo_usuario, reputacao_tutor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Usuarios (nome, email, senha_hash, universidade, curso, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = BancoDados.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -15,13 +15,7 @@ public class UsuarioDAO {
             stmt.setString(3, usuario.getSenhaHash());
             stmt.setString(4, usuario.getUniversidade());
             stmt.setString(5, usuario.getCurso());
-            stmt.setTimestamp(6, Timestamp.valueOf(usuario.getDataCadastro()));
-            stmt.setString(7, usuario.getTipoUsuario().name());
-            if (usuario.getReputacaoTutor() != null) {
-                stmt.setInt(8, usuario.getReputacaoTutor());
-            } else {
-                stmt.setNull(8, Types.INTEGER);
-            }
+            stmt.setString(6, usuario.getTipoUsuario().name());
 
             int affectedRows = stmt.executeUpdate();
 
@@ -53,6 +47,24 @@ public class UsuarioDAO {
             }
         } catch (SQLException e) {
             System.err.println("Erro ao buscar usuário por ID: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Usuario buscarPorEmail(String email) {
+        String sql = "SELECT * FROM Usuarios WHERE email = ?";
+        try (Connection conn = BancoDados.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return criarUsuarioDoResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar usuário por email: " + e.getMessage());
             e.printStackTrace();
         }
         return null;

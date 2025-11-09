@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Scanner;
+
 
 public class Main {
 
@@ -28,13 +30,35 @@ public class Main {
         ChatsDAO chatsDAO = new ChatsDAO();
         MensagensChatDAO mensagensChatDAO = new MensagensChatDAO();
         RankingTutoresDAO rankingTutoresDAO = new RankingTutoresDAO();
+        Scanner scanf = new Scanner(System.in);
 
-        ConsoleUtils.limpar();
+        Interface.limpar();
 
-        List<Usuario> usuarios = usuarioDAO.buscarTodos();
-        for(Usuario x: usuarios){
-            System.out.println(x.toString());
-        }
+
+        int opao;
+        do
+        {
+            System.out.printf("Entrar - 1\n" +
+                    "Cadastrar - 2\n" +
+                    "Sair - 3\n");
+            opao = scanf.nextInt();
+            scanf.nextLine();
+            Interface.limpar();
+            switch (opao){
+                case 1:
+                    //Usuario user = Interface.entrar();
+                    Interface.PaginacaoInicial(disciplinaDAO.buscarTodos(),2);
+                    break;
+
+                case 2:
+                    usuarioDAO.inserir(Interface.cadastrar());
+                    break;
+            }
+            Interface.limpar();
+        }while (opao!=3);
+
+
 
     }
 }
+

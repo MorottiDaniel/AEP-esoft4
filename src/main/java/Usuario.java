@@ -36,13 +36,12 @@ class Usuario {
     }
 
     public Usuario(String nome, String email, String senhaHash, String universidade,
-                   String curso, LocalDateTime dataCadastro, TipoUsuario tipoUsuario) {
+                   String curso, TipoUsuario tipoUsuario) {
         this.nome = nome;
         this.email = email;
         this.senhaHash = senhaHash;
         this.universidade = universidade;
         this.curso = curso;
-        this.dataCadastro = dataCadastro;
         this.tipoUsuario = tipoUsuario;
     }
 
@@ -123,28 +122,28 @@ class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" +
-                "idUsuario=" + idUsuario +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", universidade='" + universidade + '\'' +
-                ", curso='" + curso + '\'' +
-                ", dataCadastro=" + dataCadastro +
-                ", tipoUsuario=" + tipoUsuario +
-                ", reputacaoTutor=" + reputacaoTutor +
-                '}';
+        if (tipoUsuario == TipoUsuario.ALUNO) {
+            return String.format("\nID: %d" +
+                    "\nNome: %s" +
+                    "\nEmail: %s" +
+                    "\nSenha: %s" +
+                    "\nUniversidade: %s" +
+                    "\nCurso: %s" +
+                    "\ntipo: " + tipoUsuario, idUsuario, nome, email, senhaHash, universidade, curso);
+
+        }else {
+            return String.format("\nID: %d" +
+                    "\nNome: %s" +
+                    "\nEmail: %s" +
+                    "\nSenha: %s" +
+                    "\nUniversidade: %s" +
+                    "\nCurso: %s" +
+                    "\ntipo: " + tipoUsuario +
+                    "\nReputação: %d", idUsuario, nome, email, senhaHash, universidade, curso, reputacaoTutor);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        return idUsuario == usuario.idUsuario;
+
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idUsuario);
-    }
+
 }
