@@ -5,10 +5,10 @@ import java.util.Objects;
 
 class Chats {
     private int idChat;
-    private Usuario usuario1; // FK para Usuario
-    private Usuario usuario2; // FK para Usuario
+    private Usuario usuario1;
+    private Usuario usuario2;
     private LocalDateTime dataInicio;
-    private List<MensagensChat> mensagens; // Lista de mensagens do chat
+    private List<MensagensChat> mensagens;
 
     public Chats(int idChat, Usuario usuario1, Usuario usuario2, LocalDateTime dataInicio) {
         this.idChat = idChat;
@@ -76,18 +76,5 @@ class Chats {
                 ", dataInicio=" + dataInicio +
                 ", numMensagens=" + mensagens.size() +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Chats chats = (Chats) o;
-        return idChat == chats.idChat;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idChat);
     }
 }

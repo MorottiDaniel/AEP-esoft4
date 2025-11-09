@@ -1,9 +1,6 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
-// Enum para o tipo de usuário
+
 enum TipoUsuario {
     ALUNO,
     TUTOR,

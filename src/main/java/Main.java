@@ -1,9 +1,5 @@
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -11,7 +7,6 @@ public class Main {
     static int tamanhoPagina = 5;
 
     public static void main(String[] args) {
-        // Inicializa o banco de dados e cria as tabelas
         try (Connection conn = BancoDados.getConexao()) {
             if (conn != null) {
                 DatabaseInitializer.criarTabelas(conn);
@@ -24,7 +19,6 @@ public class Main {
             System.err.println("Erro ao fechar conexão no inicializador: " + e.getMessage());
         }
 
-        // Instancia os DAOs
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
         MaterialDAO materialDAO = new MaterialDAO();
@@ -36,9 +30,17 @@ public class Main {
         Scanner scanf = new Scanner(System.in);
 
 
+
+
         Interface.limpar();
+/*
+        List<Usuario> usuarios = usuarioDAO.buscarTodos();
+        for(Usuario x : usuarios){
+            System.out.printf("%s \nSenha: %s",x.toString(),x.getSenhaHash());
+        }
+// */
 
-
+// /*
         int opao;
         do
         {
@@ -67,7 +69,7 @@ public class Main {
             }
             Interface.limpar();
         }while (opao!=3);
-
+// */
 
 
     }

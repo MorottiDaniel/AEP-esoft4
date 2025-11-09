@@ -8,10 +8,10 @@ class QuestoesForum {
     private String tituloQuestao;
     private String conteudoQuestao;
     private LocalDateTime dataPostagem;
-    private Usuario aluno; // FK para Usuario (aluno)
-    private Material material; // FK para Disciplina
+    private Usuario aluno;
+    private Material material;
     private StatusQuestao statusQuestao;
-    private List<RespostasForum> respostas; // Lista de respostas para a questão
+    private List<RespostasForum> respostas;
 
     public QuestoesForum(int idQuestao, String tituloQuestao, String conteudoQuestao,
                          LocalDateTime dataPostagem, Usuario aluno, Material material, StatusQuestao statusQuestao) {

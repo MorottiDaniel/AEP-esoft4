@@ -6,7 +6,7 @@ import java.util.List;
 public class ChatsDAO {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
-    // MensagensChatDAO seria usado para carregar as mensagens de um chat, mas não para o objeto Chat em si.
+
 
     public void inserir(Chats chat) {
         String sql = "INSERT INTO Chats (id_usuario1, id_usuario2, data_inicio) VALUES (?, ?, ?)";
@@ -53,7 +53,6 @@ public class ChatsDAO {
     }
 
     public Chats buscarPorUsuarios(int idUsuario1, int idUsuario2) {
-        // Busca um chat entre dois usuários específicos, independentemente da ordem
         String sql = "SELECT * FROM Chats WHERE (id_usuario1 = ? AND id_usuario2 = ?) OR (id_usuario1 = ? AND id_usuario2 = ?)";
         try (Connection conn = BancoDados.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -140,17 +139,9 @@ public class ChatsDAO {
         int idUsuario1 = rs.getInt("id_usuario1");
         int idUsuario2 = rs.getInt("id_usuario2");
         LocalDateTime dataInicio = rs.getTimestamp("data_inicio").toLocalDateTime();
-
         Usuario usuario1 = usuarioDAO.buscarPorId(idUsuario1);
         Usuario usuario2 = usuarioDAO.buscarPorId(idUsuario2);
-
-        // Não carregamos as mensagens aqui para evitar sobrecarga.
-        // As mensagens seriam carregadas separadamente por um MensagensChatDAO.buscarPorChat(idChat).
         Chats chat = new Chats(id, usuario1, usuario2, dataInicio);
-
-        // Se desejar carregar as mensagens imediatamente:
-        // MensagensChatDAO mensagensChatDAO = new MensagensChatDAO(); // Instancie se necessário
-        // chat.getMensagens().addAll(mensagensChatDAO.buscarPorChat(id));
 
         return chat;
     }

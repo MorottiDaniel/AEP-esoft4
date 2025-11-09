@@ -7,8 +7,6 @@ public class QuestoesForumDAO {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
     private MaterialDAO materialDAO = new MaterialDAO();
-    // RespostasForumDAO não é diretamente usado aqui para buscar, mas seria para gerenciar as respostas da questão.
-    // Se precisarmos carregar todas as respostas de uma questão ao buscá-la, instanciaríamos um RespostasForumDAO.
 
     public void inserir(QuestoesForum questao) {
         String sql = "INSERT INTO QuestoesForum (titulo_questao, conteudo_questao, id_aluno, id_material, status_questao) VALUES ( ?, ?, ?, ?, ?)";
@@ -76,10 +74,10 @@ public class QuestoesForumDAO {
     public List<QuestoesForum> buscarMaterial(int id_material) {
         List<QuestoesForum> foruns = new ArrayList<>();
         String sql = "SELECT * FROM QuestoesForum WHERE id_material = ?";
-        try (Connection conn = BancoDados.getConexao(); // Supondo que BancoDados.getConexao() retorna uma nova conexão
+        try (Connection conn = BancoDados.getConexao();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id_material);
-            try (ResultSet rs = pstmt.executeQuery()) { // Executa a query
+            try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     foruns.add(criarQuestaoDoResultSet(rs));
                 }
@@ -149,13 +147,9 @@ public class QuestoesForumDAO {
         Usuario aluno = usuarioDAO.buscarPorId(idAluno);
         Material material = materialDAO.buscarPorId(id_material);
 
-        // Não carregamos as respostas aqui para evitar recursão infinita ou sobrecarga.
-        // As respostas seriam carregadas separadamente por um RespostasForumDAO.buscarPorQuestao(idQuestao).
+
         QuestoesForum questao = new QuestoesForum(id, tituloQuestao, conteudoQuestao, dataPostagem, aluno, material, statusQuestao);
 
-        // Se desejar carregar as respostas imediatamente (tenha cuidado com lazy loading vs eager loading)
-        // RespostasForumDAO respostasForumDAO = new RespostasForumDAO(); // Instancie se necessário
-        // questao.getRespostas().addAll(respostasForumDAO.buscarPorQuestao(id));
 
         return questao;
     }

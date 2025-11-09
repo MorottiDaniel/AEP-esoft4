@@ -1,6 +1,5 @@
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.BiFunction;
 
 
 
@@ -28,21 +27,20 @@ public class Interface {
     public static Usuario entrar(){
         System.out.printf("\nEmail: ");
         String email = scanf.nextLine();
-        System.out.println(email + "  teste");
         Usuario user = new UsuarioDAO().buscarPorEmail(email);
         if(user == null){
             System.out.println("Usuario não encontrado");
             return null;
         }
         System.out.printf("\nSenha: ");
-        String senha = scanf.nextLine();
-        if(senha.equals(user.getSenhaHash())){
-            System.out.println("Login feio com sucesso");
+        String senhaDigitada = scanf.nextLine();
+
+        if(senhaDigitada.equals(user.getSenhaHash())){
+            System.out.println("Login feito com sucesso");
         }else{
             System.out.println("senha incorreta!");
             user = null;
         }
-        scanf.nextLine();
         return user;
     }
 
@@ -67,9 +65,9 @@ public class Interface {
             scanf.nextLine();
         }while (opao != 1 && opao != 2);
         if(opao == 1){
-            user = new Usuario(nome, email, universidade, curso, senha, TipoUsuario.ALUNO);
+            user = new Usuario(nome, email, senha, universidade, curso, TipoUsuario.ALUNO);
         }if(opao == 2){
-            user = new Usuario(nome, email, universidade, curso, senha, TipoUsuario.TUTOR);
+            user = new Usuario(nome, email, senha, universidade, curso, TipoUsuario.TUTOR);
         }
         return user;
 
@@ -145,15 +143,15 @@ public class Interface {
             }else if (opao ==7) {
                 PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,tamanhoPagina, user);
             }else if (opao ==8) {
-
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,tamanhoPagina, user);
             }
 
         }while (opao!=3);
     }
 
     public static void PaginacaoDisciplina(int id_disciplina, int tamanhoPagina, Usuario user){
-        List <Material> lista = materialDAO.buscarDisciplina(id_disciplina);
         int opao, inicio = 0 ;
+        List <Material> lista = materialDAO.buscarDisciplina(id_disciplina);
         do{
             Interface.limpar();
             System.out.printf("===============================================================\n" +
@@ -199,13 +197,13 @@ public class Interface {
     }
 
     public static void PaginacaoMaterial(int id_material, int tamanhoPagina, Usuario user){
-        Material material = materialDAO.buscarPorId(id_material);
-        List <QuestoesForum> lista = questoesForumDAO.buscarMaterial(id_material);
+
 
 
         int opao, inicio = 0 ;
         do{
-
+            Material material = materialDAO.buscarPorId(id_material);
+            List <QuestoesForum> lista = questoesForumDAO.buscarMaterial(id_material);
 
             Interface.limpar();
             System.out.printf("Material: %s| Tutor: %s \n" +
@@ -245,11 +243,11 @@ public class Interface {
             }else if (opao ==5) {
                 PaginacaoForum(lista.get(opao-(4-inicio)).getIdQuestao() ,tamanhoPagina, user);
             }else if (opao ==6) {
-                PaginacaoForum(lista.get(opao - (4 - inicio)).getIdQuestao(), tamanhoPagina, user);
+                PaginacaoForum(lista.get(opao-(4-inicio)).getIdQuestao() ,tamanhoPagina, user);
             }else if (opao ==7) {
                 PaginacaoForum(lista.get(opao-(4-inicio)).getIdQuestao() ,tamanhoPagina, user);
             }else if (opao ==8) {
-
+                PaginacaoForum(lista.get(opao-(4-inicio)).getIdQuestao() ,tamanhoPagina, user);
             }
 
 
@@ -281,12 +279,13 @@ public class Interface {
 
     public static void PaginacaoForum(int id_questao, int tamanhoPagina,  Usuario user){
 
-        List<RespostasForum> lista = respostasForumDAO.buscarPorQuestao(id_questao);
+
 
         int opao, inicio = 0 ;
 
 
         do{
+            List<RespostasForum> lista = respostasForumDAO.buscarPorQuestao(id_questao);
             Interface.limpar();
             System.out.printf("Questão: %s \n" +
                             "---------------------------------------------------------------\n" +

@@ -4,13 +4,12 @@ import java.sql.SQLException;
 
 public class BancoDados {
 
-    private static final String URL = "jdbc:h2:./banco_teste"; // Onde o banco será salvo
-    private static final String USUARIO = "sa"; // Usuário padrão para H2
-    private static final String SENHA = ""; // Senha vazia para H2
+    private static final String URL = "jdbc:h2:./banco_teste";
+    private static final String USUARIO = "sa";
+    private static final String SENHA = "";
 
     public static Connection getConexao() {
         try {
-            // Garante que o driver H2 esteja carregado
             Class.forName("org.h2.Driver");
             return DriverManager.getConnection(URL, USUARIO, SENHA);
         } catch (ClassNotFoundException e) {

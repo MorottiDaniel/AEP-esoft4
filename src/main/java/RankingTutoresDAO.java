@@ -27,8 +27,7 @@ public class RankingTutoresDAO {
             }
 
         } catch (SQLException e) {
-            // UNIQUE constraint violation for id_tutor
-            if (e.getSQLState().equals("23505")) { // Código de erro comum para violação de UNIQUE constraint
+            if (e.getSQLState().equals("23505")) {
                 System.err.println("Erro: Tutor ID " + ranking.getTutor().getIdUsuario() + " já possui uma entrada no ranking.");
             } else {
                 System.err.println("Erro ao inserir entrada de ranking de tutores: " + e.getMessage());

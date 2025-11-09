@@ -12,10 +12,6 @@ public class DatabaseInitializer {
 
         try (Statement stmt = conn.createStatement()) {
 
-            // Desativar a checagem de FK temporariamente (útil para criar tabelas em qualquer ordem)
-            // stmt.execute("SET REFERENTIAL_INTEGRITY FALSE"); // H2 specific
-
-            // 1. Tabela Usuarios
             String sqlUsuarios = "CREATE TABLE IF NOT EXISTS Usuarios (" +
                     "id_usuario INT AUTO_INCREMENT PRIMARY KEY," +
                     "nome VARCHAR(255) NOT NULL," +
@@ -24,13 +20,13 @@ public class DatabaseInitializer {
                     "universidade VARCHAR(255)," +
                     "curso VARCHAR(255)," +
                     "data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-                    "tipo_usuario VARCHAR(50) NOT NULL," + // ALUNO, TUTOR, ADMIN
-                    "reputacao_tutor INT" + // Pode ser NULL
+                    "tipo_usuario VARCHAR(50) NOT NULL," +
+                    "reputacao_tutor INT" +
                     ");";
             stmt.execute(sqlUsuarios);
             System.out.println("Tabela Usuarios criada ou já existe.");
 
-            // 2. Tabela Disciplinas
+
             String sqlDisciplinas = "CREATE TABLE IF NOT EXISTS Disciplinas (" +
                     "id_disciplina INT AUTO_INCREMENT PRIMARY KEY," +
                     "nome_disciplina VARCHAR(255) NOT NULL UNIQUE," +
@@ -39,7 +35,7 @@ public class DatabaseInitializer {
             stmt.execute(sqlDisciplinas);
             System.out.println("Tabela Disciplinas criada ou já existe.");
 
-            // 3. Tabela Materiais
+
             String sqlMateriais = "CREATE TABLE IF NOT EXISTS Materiais (" +
                     "id_material INT AUTO_INCREMENT PRIMARY KEY," +
                     "titulo VARCHAR(255) NOT NULL," +
@@ -54,7 +50,7 @@ public class DatabaseInitializer {
             stmt.execute(sqlMateriais);
             System.out.println("Tabela Materiais criada ou já existe.");
 
-            // 4. Tabela QuestoesForum
+
             String sqlQuestoesForum = "CREATE TABLE IF NOT EXISTS QuestoesForum (" +
                     "id_questao INT AUTO_INCREMENT PRIMARY KEY," +
                     "titulo_questao VARCHAR(255) NOT NULL," +
@@ -69,7 +65,7 @@ public class DatabaseInitializer {
             stmt.execute(sqlQuestoesForum);
             System.out.println("Tabela QuestoesForum criada ou já existe.");
 
-            // 5. Tabela RespostasForum
+
             String sqlRespostasForum = "CREATE TABLE IF NOT EXISTS RespostasForum (" +
                     "id_resposta INT AUTO_INCREMENT PRIMARY KEY," +
                     "conteudo_resposta TEXT NOT NULL," +
@@ -83,7 +79,7 @@ public class DatabaseInitializer {
             stmt.execute(sqlRespostasForum);
             System.out.println("Tabela RespostasForum criada ou já existe.");
 
-            // 6. Tabela Chats
+
             String sqlChats = "CREATE TABLE IF NOT EXISTS Chats (" +
                     "id_chat INT AUTO_INCREMENT PRIMARY KEY," +
                     "id_usuario1 INT NOT NULL," +
@@ -91,12 +87,12 @@ public class DatabaseInitializer {
                     "data_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "FOREIGN KEY (id_usuario1) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE," +
                     "FOREIGN KEY (id_usuario2) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE," +
-                    "CONSTRAINT unique_chat_pair UNIQUE (id_usuario1, id_usuario2)" + // Para evitar chats duplicados entre as mesmas duas pessoas
+                    "CONSTRAINT unique_chat_pair UNIQUE (id_usuario1, id_usuario2)" +
                     ");";
             stmt.execute(sqlChats);
             System.out.println("Tabela Chats criada ou já existe.");
 
-            // 7. Tabela MensagensChat
+
             String sqlMensagensChat = "CREATE TABLE IF NOT EXISTS MensagensChat (" +
                     "id_mensagem INT AUTO_INCREMENT PRIMARY KEY," +
                     "id_chat INT NOT NULL," +
@@ -109,7 +105,7 @@ public class DatabaseInitializer {
             stmt.execute(sqlMensagensChat);
             System.out.println("Tabela MensagensChat criada ou já existe.");
 
-            // 8. Tabela RankingTutores
+
             String sqlRankingTutores = "CREATE TABLE IF NOT EXISTS RankingTutores (" +
                     "id_ranking INT AUTO_INCREMENT PRIMARY KEY," +
                     "id_tutor INT NOT NULL UNIQUE," + // Um tutor pode ter apenas uma entrada no ranking
@@ -119,9 +115,6 @@ public class DatabaseInitializer {
                     ");";
             stmt.execute(sqlRankingTutores);
             System.out.println("Tabela RankingTutores criada ou já existe.");
-
-            // Reativar a checagem de FK
-            // stmt.execute("SET REFERENTIAL_INTEGRITY TRUE"); // H2 specific
 
         } catch (SQLException e) {
             System.err.println("Erro ao criar tabelas: " + e.getMessage());

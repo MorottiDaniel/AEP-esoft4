@@ -1,11 +1,8 @@
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 class RankingTutores {
     private int idRanking;
-    private Usuario tutor; // FK para Usuario (tutor)
+    private Usuario tutor;
     private int pontuacaoTotal;
     private String nivel;
 
@@ -67,16 +64,4 @@ class RankingTutores {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RankingTutores that = (RankingTutores) o;
-        return idRanking == that.idRanking;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idRanking);
-    }
 }

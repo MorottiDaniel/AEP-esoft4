@@ -19,18 +19,16 @@ public class MaterialDAO {
             stmt.setString(3, material.getCaminhoArquivo());
             stmt.setTimestamp(4, Timestamp.valueOf(material.getDataUpload()));
 
-            // Certifique-se de que o tutor e a disciplina já foram inseridos e têm IDs
-            // Se o tutor pode ser null na sua lógica de negócio, você precisaria verificar:
             if (material.getTutor() != null) {
-                stmt.setInt(5, material.getTutor().getIdUsuario()); // Pega o ID do objeto Tutor
+                stmt.setInt(5, material.getTutor().getIdUsuario());
             } else {
-                stmt.setNull(5, Types.INTEGER); // Define como NULL no banco de dados
+                stmt.setNull(5, Types.INTEGER);
             }
 
             if (material.getDisciplina() != null) {
-                stmt.setInt(6, material.getDisciplina().getIdDisciplina()); // Pega o ID do objeto Disciplina
+                stmt.setInt(6, material.getDisciplina().getIdDisciplina());
             } else {
-                stmt.setNull(6, Types.INTEGER); // Define como NULL no banco de dados
+                stmt.setNull(6, Types.INTEGER);
             }
 
             int affectedRows = stmt.executeUpdate();
