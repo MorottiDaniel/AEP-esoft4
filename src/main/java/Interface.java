@@ -5,14 +5,14 @@ import java.util.function.BiFunction;
 
 
 public class Interface {
-    UsuarioDAO usuarioDAO = new UsuarioDAO();
-    DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
-    MaterialDAO materialDAO = new MaterialDAO();
-    QuestoesForumDAO questoesForumDAO = new QuestoesForumDAO();
-    RespostasForumDAO respostasForumDAO = new RespostasForumDAO();
-    ChatsDAO chatsDAO = new ChatsDAO();
-    MensagensChatDAO mensagensChatDAO = new MensagensChatDAO();
-    RankingTutoresDAO rankingTutoresDAO = new RankingTutoresDAO();
+    static UsuarioDAO usuarioDAO = new UsuarioDAO();
+    static DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+    static MaterialDAO materialDAO = new MaterialDAO();
+    static QuestoesForumDAO questoesForumDAO = new QuestoesForumDAO();
+    static RespostasForumDAO respostasForumDAO = new RespostasForumDAO();
+    static ChatsDAO chatsDAO = new ChatsDAO();
+    static MensagensChatDAO mensagensChatDAO = new MensagensChatDAO();
+    static RankingTutoresDAO rankingTutoresDAO = new RankingTutoresDAO();
     static Scanner scanf = new Scanner(System.in);
 
     public Interface() {
@@ -90,7 +90,7 @@ public class Interface {
 
     public static void exibirRankingTutores() {
         System.out.println("=== RANKING DOS TUTORES ===");
-        List<RankingTutores> rankings = rankingDAO.buscarTodos();
+        List<RankingTutores> rankings = rankingTutoresDAO.buscarTodos();
         if (rankings.isEmpty()) {
             System.out.println("Nenhum tutor cadastrado no ranking.");
             return;
@@ -104,17 +104,19 @@ public class Interface {
         }
     }
 
-    public static <T> void PaginacaoInicial(List<T> lista, int tamanhoPagina){
+    public static void PaginacaoInicial(List<Disciplina> lista, int tamanhoPagina){
         int opao, inicio = 0 ;
         do{
+            Interface.limpar();
             exibirRankingTutores();
             System.out.printf("===============================================================\n" +
                     "|-1-Voltar Pagina-1-|    |-2-Proxima Pagina-2-|    |-3-Sair-3-|\n" +
                     "===============================================================\n");
 
+            int indice = 0;
             for(int i = inicio; i < Math.min(inicio + tamanhoPagina,lista.size()); i++){
-                T t = lista.get(i);
-                System.out.println(t.toString() + " -"+(i+4)+"-");
+                System.out.println(lista.get(i).toString() + " -"+(indice+4)+"-");
+                indice++;
             }
 
             System.out.print("\nEscolha uma opção: ");
@@ -122,38 +124,43 @@ public class Interface {
             scanf.nextLine();
 
             if(opao == 1){
-                inicio = Math.max(0, inicio - tamanhoPagina);
+                int x = Math.max(0, inicio - tamanhoPagina);
+                inicio = x;
+                indice = x;
             }else if(opao == 2){
                 int limiteSuperiorInicio = Math.max(0, lista.size() - tamanhoPagina);
-                inicio = Math.min(lista.size(), inicio + tamanhoPagina);
+                int x = Math.min(lista.size(), inicio + tamanhoPagina);
+                inicio = x;
+                indice = x;
             } else if (opao ==4) {
-                PaginacaoDisciplina();
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
             }else if (opao ==5) {
-
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
             }else if (opao ==6) {
-
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
             }else if (opao ==7) {
-
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
             }else if (opao ==8) {
 
             }
 
-
-            Interface.limpar();
         }while (opao!=3);
     }
 
-    public static <T> void PaginacaoDisciplina(List<T> lista, int tamanhoPagina,){
+    public static void PaginacaoDisciplina(int id_disciplina, int tamanhoPagina){
+        List <Material> lista = materialDAO.buscarDisciplina(id_disciplina);
         int opao, inicio = 0 ;
         do{
-            exibirRankingTutores();
+            Interface.limpar();
+            System.out.printf("===============================================================\n" +
+                    "%s\n" +
+                    "===============================================================\n",disciplinaDAO.buscarPorId(id_disciplina).getNomeDisciplina());
             System.out.printf("===============================================================\n" +
                     "|-1-Voltar Pagina-1-|    |-2-Proxima Pagina-2-|    |-3-Sair-3-|\n" +
                     "===============================================================\n");
 
             for(int i = inicio; i < Math.min(inicio + tamanhoPagina,lista.size()); i++){
-                T t = lista.get(i);
-                System.out.println(t.toString() + " -"+(i+4)+"-");
+                System.out.println(lista.toString() + " -"+(i+4)+"-");
             }
 
             System.out.print("\nEscolha uma opção: ");

@@ -68,6 +68,24 @@ public class MaterialDAO {
         return null;
     }
 
+    public List<Material> buscarDisciplina(int id_disciplina) {
+        List<Material> materiais = new ArrayList<>();
+        String sql = "SELECT * FROM Materiais WHERE id_disciplina = ?";
+        try (Connection conn = BancoDados.getConexao(); // Supondo que BancoDados.getConexao() retorna uma nova conexão
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id_disciplina);
+            try (ResultSet rs = pstmt.executeQuery()) { // Executa a query
+                while (rs.next()) {
+                    materiais.add(criarMaterialDoResultSet(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar todos os materiais: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return materiais;
+    }
+
     public List<Material> buscarTodos() {
         List<Material> materiais = new ArrayList<>();
         String sql = "SELECT * FROM Materiais";

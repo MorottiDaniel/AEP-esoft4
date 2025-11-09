@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 
 public class Main {
+    static int tamanhoPagina = 5;
 
     public static void main(String[] args) {
         // Inicializa o banco de dados e cria as tabelas
@@ -46,8 +47,8 @@ public class Main {
             Interface.limpar();
             switch (opao){
                 case 1:
-                    //Usuario user = Interface.entrar();
-                    Interface.PaginacaoInicial(disciplinaDAO.buscarTodos(),2);
+                    //Usuario user = Interface.entrar();va
+                    Interface.PaginacaoInicial(disciplinaDAO.buscarTodos(),tamanhoPagina);
                     break;
 
                 case 2:
@@ -61,4 +62,3 @@ public class Main {
 
     }
 }
-
