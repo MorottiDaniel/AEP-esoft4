@@ -96,23 +96,7 @@ class Material {
 
     @Override
     public String toString() {
-        return "Material{" +
-                "idMaterial=" + idMaterial +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", caminhoArquivo='" + caminhoArquivo + '\'' +
-                ", dataUpload=" + dataUpload +
-                ", tutor=" + (tutor != null ? tutor.getNome() : "N/A") +
-                ", disciplina=" + (disciplina != null ? disciplina.getNomeDisciplina() : "N/A") +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Material material = (Material) o;
-        return idMaterial == material.idMaterial;
+        return String.format("Titulo: %s| Descrição: %s| Tutor: %s",titulo,descricao,tutor.getNome());
     }
 
     @Override

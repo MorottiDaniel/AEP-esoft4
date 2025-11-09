@@ -6,12 +6,12 @@ import java.util.List;
 public class QuestoesForumDAO {
 
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
-    private DisciplinaDAO disciplinaDAO = new DisciplinaDAO();
+    private MaterialDAO materialDAO = new MaterialDAO();
     // RespostasForumDAO não é diretamente usado aqui para buscar, mas seria para gerenciar as respostas da questão.
     // Se precisarmos carregar todas as respostas de uma questão ao buscá-la, instanciaríamos um RespostasForumDAO.
 
     public void inserir(QuestoesForum questao) {
-        String sql = "INSERT INTO QuestoesForum (titulo_questao, conteudo_questao, data_postagem, id_aluno, id_disciplina, status_questao) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO QuestoesForum (titulo_questao, conteudo_questao, data_postagem, id_aluno, id_material, status_questao) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = BancoDados.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -19,7 +19,7 @@ public class QuestoesForumDAO {
             stmt.setString(2, questao.getConteudoQuestao());
             stmt.setTimestamp(3, Timestamp.valueOf(questao.getDataPostagem()));
             stmt.setInt(4, questao.getAluno().getIdUsuario());
-            stmt.setInt(5, questao.getDisciplina().getIdDisciplina());
+            stmt.setInt(5, questao.getMaterial().getIdMaterial());
             stmt.setString(6, questao.getStatusQuestao().name());
 
             int affectedRows = stmt.executeUpdate();
@@ -74,15 +74,33 @@ public class QuestoesForumDAO {
         return questoes;
     }
 
+    public List<QuestoesForum> buscarMaterial(int id_material) {
+        List<QuestoesForum> foruns = new ArrayList<>();
+        String sql = "SELECT * FROM QuestoesForum WHERE id_material = ?";
+        try (Connection conn = BancoDados.getConexao(); // Supondo que BancoDados.getConexao() retorna uma nova conexão
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id_material);
+            try (ResultSet rs = pstmt.executeQuery()) { // Executa a query
+                while (rs.next()) {
+                    foruns.add(criarQuestaoDoResultSet(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar todos os foruns: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return foruns;
+    }
+
     public void atualizar(QuestoesForum questao) {
-        String sql = "UPDATE QuestoesForum SET titulo_questao = ?, conteudo_questao = ?, id_aluno = ?, id_disciplina = ?, status_questao = ? WHERE id_questao = ?";
+        String sql = "UPDATE QuestoesForum SET titulo_questao = ?, conteudo_questao = ?, id_aluno = ?, id_Material = ?, status_questao = ? WHERE id_questao = ?";
         try (Connection conn = BancoDados.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, questao.getTituloQuestao());
             stmt.setString(2, questao.getConteudoQuestao());
             stmt.setInt(3, questao.getAluno().getIdUsuario());
-            stmt.setInt(4, questao.getDisciplina().getIdDisciplina());
+            stmt.setInt(4, questao.getMaterial().getIdMaterial());
             stmt.setString(5, questao.getStatusQuestao().name());
             stmt.setInt(6, questao.getIdQuestao());
 
@@ -126,15 +144,15 @@ public class QuestoesForumDAO {
         LocalDateTime dataPostagem = rs.getTimestamp("data_postagem").toLocalDateTime();
 
         int idAluno = rs.getInt("id_aluno");
-        int idDisciplina = rs.getInt("id_disciplina");
+        int id_material = rs.getInt("id_material");
         StatusQuestao statusQuestao = StatusQuestao.valueOf(rs.getString("status_questao"));
 
         Usuario aluno = usuarioDAO.buscarPorId(idAluno);
-        Disciplina disciplina = disciplinaDAO.buscarPorId(idDisciplina);
+        Material material = materialDAO.buscarPorId(id_material);
 
         // Não carregamos as respostas aqui para evitar recursão infinita ou sobrecarga.
         // As respostas seriam carregadas separadamente por um RespostasForumDAO.buscarPorQuestao(idQuestao).
-        QuestoesForum questao = new QuestoesForum(id, tituloQuestao, conteudoQuestao, dataPostagem, aluno, disciplina, statusQuestao);
+        QuestoesForum questao = new QuestoesForum(id, tituloQuestao, conteudoQuestao, dataPostagem, aluno, material, statusQuestao);
 
         // Se desejar carregar as respostas imediatamente (tenha cuidado com lazy loading vs eager loading)
         // RespostasForumDAO respostasForumDAO = new RespostasForumDAO(); // Instancie se necessário

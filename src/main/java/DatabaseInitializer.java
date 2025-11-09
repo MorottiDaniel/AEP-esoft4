@@ -61,10 +61,10 @@ public class DatabaseInitializer {
                     "conteudo_questao TEXT NOT NULL," +
                     "data_postagem TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "id_aluno INT," +
-                    "id_disciplina INT," +
+                    "id_material INT," +
                     "status_questao VARCHAR(50) NOT NULL," + // ABERTA, RESPONDIDA, FECHADA
                     "FOREIGN KEY (id_aluno) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE," +
-                    "FOREIGN KEY (id_disciplina) REFERENCES Disciplinas(id_disciplina) ON DELETE CASCADE" +
+                    "FOREIGN KEY (id_material) REFERENCES Materiais(id_material) ON DELETE CASCADE" +
                     ");";
             stmt.execute(sqlQuestoesForum);
             System.out.println("Tabela QuestoesForum criada ou já existe.");

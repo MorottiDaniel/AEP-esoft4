@@ -47,23 +47,8 @@ class Disciplina {
 
     @Override
     public String toString() {
-        return "Disciplina{" +
-                "idDisciplina=" + idDisciplina +
-                ", nomeDisciplina='" + nomeDisciplina + '\'' +
-                ", ementa='" + ementa + '\'' +
-                '}';
+        return String.format("Nome: %s|" +
+                "Descrição: %s",nomeDisciplina,ementa);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Disciplina that = (Disciplina) o;
-        return idDisciplina == that.idDisciplina;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idDisciplina);
-    }
 }

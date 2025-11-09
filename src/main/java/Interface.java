@@ -110,6 +110,8 @@ public class Interface {
             Interface.limpar();
             exibirRankingTutores();
             System.out.printf("===============================================================\n" +
+                    "DISCIPLINAS DISPONÍVEIS\n" );
+            System.out.printf("===============================================================\n" +
                     "|-1-Voltar Pagina-1-|    |-2-Proxima Pagina-2-|    |-3-Sair-3-|\n" +
                     "===============================================================\n");
 
@@ -133,13 +135,13 @@ public class Interface {
                 inicio = x;
                 indice = x;
             } else if (opao ==4) {
-                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,tamanhoPagina);
             }else if (opao ==5) {
-                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,tamanhoPagina);
             }else if (opao ==6) {
-                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,tamanhoPagina);
             }else if (opao ==7) {
-                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,5);
+                PaginacaoDisciplina(lista.get(opao-(4-inicio)).getIdDisciplina() ,tamanhoPagina);
             }else if (opao ==8) {
 
             }
@@ -153,14 +155,15 @@ public class Interface {
         do{
             Interface.limpar();
             System.out.printf("===============================================================\n" +
-                    "%s\n" +
-                    "===============================================================\n",disciplinaDAO.buscarPorId(id_disciplina).getNomeDisciplina());
+                    "%s\n",disciplinaDAO.buscarPorId(id_disciplina).getNomeDisciplina());
             System.out.printf("===============================================================\n" +
                     "|-1-Voltar Pagina-1-|    |-2-Proxima Pagina-2-|    |-3-Sair-3-|\n" +
                     "===============================================================\n");
 
+            int indice = 0;
             for(int i = inicio; i < Math.min(inicio + tamanhoPagina,lista.size()); i++){
-                System.out.println(lista.toString() + " -"+(i+4)+"-");
+                System.out.println(lista.get(i).toString() + " -"+(i+4)+"-");
+                indice++;
             }
 
             System.out.print("\nEscolha uma opção: ");
@@ -168,10 +171,70 @@ public class Interface {
             scanf.nextLine();
 
             if(opao == 1){
-                inicio = Math.max(0, inicio - tamanhoPagina);
+                int x = Math.max(0, inicio - tamanhoPagina);
+                inicio = x;
+                indice = x;
             }else if(opao == 2){
                 int limiteSuperiorInicio = Math.max(0, lista.size() - tamanhoPagina);
-                inicio = Math.min(lista.size(), inicio + tamanhoPagina);
+                int x = Math.min(lista.size(), inicio + tamanhoPagina);
+                inicio = x;
+                indice = x;
+            } else if (opao ==4) {
+                PaginacaoMaterial(lista.get(opao-(4-inicio)).getIdMaterial() ,tamanhoPagina);
+            }else if (opao ==5) {
+                PaginacaoMaterial(lista.get(opao-(4-inicio)).getIdMaterial() ,tamanhoPagina);
+            }else if (opao ==6) {
+                PaginacaoMaterial(lista.get(opao-(4-inicio)).getIdMaterial() ,tamanhoPagina);
+            }else if (opao ==7) {
+                PaginacaoMaterial(lista.get(opao-(4-inicio)).getIdMaterial() ,tamanhoPagina);
+            }else if (opao ==8) {
+                PaginacaoMaterial(lista.get(opao-(4-inicio)).getIdMaterial() ,tamanhoPagina);
+            }
+
+
+            Interface.limpar();
+        }while (opao!=3);
+    }
+
+    public static void PaginacaoMaterial(int id_material, int tamanhoPagina){
+        Material material = materialDAO.buscarPorId(id_material);
+        List <QuestoesForum> lista = questoesForumDAO.buscarMaterial(id_material);
+
+
+
+        int opao, inicio = 0 ;
+        do{
+            Interface.limpar();
+            System.out.printf("Material: %s| Tutor: %s \n" +
+                            "---------------------------------------------------------------\n" +
+                            "Descrição: %s\n" +
+                            "---------------------------------------------------------------\n" +
+                            "Arquivo: %s\n" +
+                            "---------------------------------------------------------------\n",
+                    material.getTitulo(),material.getTutor().getNome(),material.getDescricao(),material.getCaminhoArquivo());
+            System.out.printf("===============================================================\n" +
+                    "|-1-Voltar Pagina-1-|    |-2-Proxima Pagina-2-|    |-3-Sair-3-|\n" +
+                    "===============================================================\n");
+
+            int indice = 0;
+            for(int i = inicio; i < Math.min(inicio + tamanhoPagina,lista.size()); i++){
+                System.out.println(lista.get(i).toString() + " -"+(i+4)+"-");
+                indice++;
+            }
+
+            System.out.print("\nEscolha uma opção: ");
+            opao = scanf.nextInt();
+            scanf.nextLine();
+
+            if(opao == 1){
+                int x = Math.max(0, inicio - tamanhoPagina);
+                inicio = x;
+                indice = x;
+            }else if(opao == 2){
+                int limiteSuperiorInicio = Math.max(0, lista.size() - tamanhoPagina);
+                int x = Math.min(lista.size(), inicio + tamanhoPagina);
+                inicio = x;
+                indice = x;
             } else if (opao ==4) {
 
             }else if (opao ==5) {

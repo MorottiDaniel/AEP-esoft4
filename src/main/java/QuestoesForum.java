@@ -9,29 +9,29 @@ class QuestoesForum {
     private String conteudoQuestao;
     private LocalDateTime dataPostagem;
     private Usuario aluno; // FK para Usuario (aluno)
-    private Disciplina disciplina; // FK para Disciplina
+    private Material material; // FK para Disciplina
     private StatusQuestao statusQuestao;
     private List<RespostasForum> respostas; // Lista de respostas para a questão
 
     public QuestoesForum(int idQuestao, String tituloQuestao, String conteudoQuestao,
-                         LocalDateTime dataPostagem, Usuario aluno, Disciplina disciplina, StatusQuestao statusQuestao) {
+                         LocalDateTime dataPostagem, Usuario aluno, Material material, StatusQuestao statusQuestao) {
         this.idQuestao = idQuestao;
         this.tituloQuestao = tituloQuestao;
         this.conteudoQuestao = conteudoQuestao;
         this.dataPostagem = dataPostagem;
         this.aluno = aluno;
-        this.disciplina = disciplina;
+        this.material = material;
         this.statusQuestao = statusQuestao;
         this.respostas = new ArrayList<>();
     }
 
     public QuestoesForum(String tituloQuestao, String conteudoQuestao,
-                         LocalDateTime dataPostagem, Usuario aluno, Disciplina disciplina, StatusQuestao statusQuestao) {
+                         LocalDateTime dataPostagem, Usuario aluno, Material material, StatusQuestao statusQuestao) {
         this.tituloQuestao = tituloQuestao;
         this.conteudoQuestao = conteudoQuestao;
         this.dataPostagem = dataPostagem;
         this.aluno = aluno;
-        this.disciplina = disciplina;
+        this.material = material;
         this.statusQuestao = statusQuestao;
         this.respostas = new ArrayList<>();
     }
@@ -57,8 +57,8 @@ class QuestoesForum {
         return aluno;
     }
 
-    public Disciplina getDisciplina() {
-        return disciplina;
+    public Material getMaterial() {
+        return material;
     }
 
     public StatusQuestao getStatusQuestao() {
@@ -90,8 +90,8 @@ class QuestoesForum {
         this.aluno = aluno;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     public void setStatusQuestao(StatusQuestao statusQuestao) {
@@ -110,7 +110,7 @@ class QuestoesForum {
                 ", conteudoQuestao='" + conteudoQuestao + '\'' +
                 ", dataPostagem=" + dataPostagem +
                 ", aluno=" + (aluno != null ? aluno.getNome() : "N/A") +
-                ", disciplina=" + (disciplina != null ? disciplina.getNomeDisciplina() : "N/A") +
+                ", material=" + (material != null ? material.getTitulo() : "N/A") +
                 ", statusQuestao=" + statusQuestao +
                 ", numRespostas=" + respostas.size() +
                 '}';
