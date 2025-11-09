@@ -17,15 +17,13 @@ public class RespostasForumDAO {
     }
 
     public void inserir(RespostasForum resposta) {
-        String sql = "INSERT INTO RespostasForum (conteudo_resposta, data_resposta, id_usuario, id_questao, validada) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO RespostasForum (conteudo_resposta, id_usuario, id_questao) VALUES ( ?, ?, ?)";
         try (Connection conn = BancoDados.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, resposta.getConteudoResposta());
-            stmt.setTimestamp(2, Timestamp.valueOf(resposta.getDataResposta()));
-            stmt.setInt(3, resposta.getUsuario().getIdUsuario());
-            stmt.setInt(4, resposta.getQuestao().getIdQuestao());
-            stmt.setBoolean(5, resposta.isValidada());
+            stmt.setInt(2, resposta.getUsuario().getIdUsuario());
+            stmt.setInt(3, resposta.getQuestao().getIdQuestao());
 
             int affectedRows = stmt.executeUpdate();
 

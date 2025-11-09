@@ -26,13 +26,12 @@ class QuestoesForum {
     }
 
     public QuestoesForum(String tituloQuestao, String conteudoQuestao,
-                         LocalDateTime dataPostagem, Usuario aluno, Material material, StatusQuestao statusQuestao) {
+                         Usuario aluno, Material material) {
         this.tituloQuestao = tituloQuestao;
         this.conteudoQuestao = conteudoQuestao;
-        this.dataPostagem = dataPostagem;
         this.aluno = aluno;
         this.material = material;
-        this.statusQuestao = statusQuestao;
+        this.statusQuestao = StatusQuestao.ABERTA;
         this.respostas = new ArrayList<>();
     }
 
@@ -104,28 +103,10 @@ class QuestoesForum {
 
     @Override
     public String toString() {
-        return "QuestoesForum{" +
-                "idQuestao=" + idQuestao +
-                ", tituloQuestao='" + tituloQuestao + '\'' +
-                ", conteudoQuestao='" + conteudoQuestao + '\'' +
-                ", dataPostagem=" + dataPostagem +
-                ", aluno=" + (aluno != null ? aluno.getNome() : "N/A") +
-                ", material=" + (material != null ? material.getTitulo() : "N/A") +
-                ", statusQuestao=" + statusQuestao +
-                ", numRespostas=" + respostas.size() +
-                '}';
+        return  String.format("%s" +
+                "\n%s" +
+                "\nDe: %s| Data Postagem: %s| Status: %s", tituloQuestao,conteudoQuestao,aluno.getNome(), dataPostagem, statusQuestao);
+
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        QuestoesForum that = (QuestoesForum) o;
-        return idQuestao == that.idQuestao;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idQuestao);
-    }
 }

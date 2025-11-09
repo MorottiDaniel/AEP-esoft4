@@ -1,6 +1,8 @@
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,22 +35,30 @@ public class Main {
         RankingTutoresDAO rankingTutoresDAO = new RankingTutoresDAO();
         Scanner scanf = new Scanner(System.in);
 
+
         Interface.limpar();
 
 
         int opao;
         do
         {
-            System.out.printf("Entrar - 1\n" +
+            System.out.printf("------------------\n" +
+                    "Entrar - 1\n" +
+                    "------------------\n" +
                     "Cadastrar - 2\n" +
-                    "Sair - 3\n");
+                    "------------------\n" +
+                    "Sair - 3\n" +
+                    "------------------\n");
             opao = scanf.nextInt();
             scanf.nextLine();
             Interface.limpar();
             switch (opao){
                 case 1:
-                    //Usuario user = Interface.entrar();va
-                    Interface.PaginacaoInicial(disciplinaDAO.buscarTodos(),tamanhoPagina);
+                    Usuario user = Interface.entrar();
+                    //Usuario user = usuarioDAO.buscarPorId(1);
+                    if(user!=null) {
+                        Interface.PaginacaoInicial(disciplinaDAO.buscarTodos(), tamanhoPagina, user);
+                    }
                     break;
 
                 case 2:

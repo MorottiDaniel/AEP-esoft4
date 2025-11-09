@@ -47,7 +47,7 @@ class Disciplina {
 
     @Override
     public String toString() {
-        return String.format("Nome: %s|" +
+        return String.format("Nome: %s\n" +
                 "Descrição: %s",nomeDisciplina,ementa);
     }
 

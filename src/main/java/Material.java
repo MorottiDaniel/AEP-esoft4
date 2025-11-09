@@ -96,7 +96,8 @@ class Material {
 
     @Override
     public String toString() {
-        return String.format("Titulo: %s| Descrição: %s| Tutor: %s",titulo,descricao,tutor.getNome());
+        return String.format("%s|Tutor: %s" +
+                "\nDescrição: %s ",titulo,tutor.getNome(),descricao);
     }
 
     @Override

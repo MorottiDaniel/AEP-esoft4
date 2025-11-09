@@ -21,13 +21,12 @@ class RespostasForum {
         this.validada = validada;
     }
 
-    public RespostasForum(String conteudoResposta, LocalDateTime dataResposta,
-                          Usuario usuario, QuestoesForum questao, boolean validada) {
+    public RespostasForum(String conteudoResposta,
+                          Usuario usuario, QuestoesForum questao) {
         this.conteudoResposta = conteudoResposta;
-        this.dataResposta = dataResposta;
         this.usuario = usuario;
         this.questao = questao;
-        this.validada = validada;
+        this.validada = true;
     }
 
     // Getters
@@ -82,26 +81,10 @@ class RespostasForum {
 
     @Override
     public String toString() {
-        return "RespostasForum{" +
-                "idResposta=" + idResposta +
-                ", conteudoResposta='" + conteudoResposta + '\'' +
-                ", dataResposta=" + dataResposta +
-                ", usuario=" + (usuario != null ? usuario.getNome() : "N/A") +
-                ", idQuestao=" + (questao != null ? questao.getIdQuestao() : "N/A") +
-                ", validada=" + validada +
-                '}';
+        return String.format("%s\n" +
+                "De:%s %s| Validada:%b",conteudoResposta,usuario.getNome(),usuario.getTipoUsuario(),validada);
+
+
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        RespostasForum that = (RespostasForum) o;
-        return idResposta == that.idResposta;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idResposta);
-    }
 }

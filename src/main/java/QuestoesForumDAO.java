@@ -11,16 +11,15 @@ public class QuestoesForumDAO {
     // Se precisarmos carregar todas as respostas de uma questão ao buscá-la, instanciaríamos um RespostasForumDAO.
 
     public void inserir(QuestoesForum questao) {
-        String sql = "INSERT INTO QuestoesForum (titulo_questao, conteudo_questao, data_postagem, id_aluno, id_material, status_questao) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO QuestoesForum (titulo_questao, conteudo_questao, id_aluno, id_material, status_questao) VALUES ( ?, ?, ?, ?, ?)";
         try (Connection conn = BancoDados.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, questao.getTituloQuestao());
             stmt.setString(2, questao.getConteudoQuestao());
-            stmt.setTimestamp(3, Timestamp.valueOf(questao.getDataPostagem()));
-            stmt.setInt(4, questao.getAluno().getIdUsuario());
-            stmt.setInt(5, questao.getMaterial().getIdMaterial());
-            stmt.setString(6, questao.getStatusQuestao().name());
+            stmt.setInt(3, questao.getAluno().getIdUsuario());
+            stmt.setInt(4, questao.getMaterial().getIdMaterial());
+            stmt.setString(5, questao.getStatusQuestao().name());
 
             int affectedRows = stmt.executeUpdate();
 
